@@ -87,21 +87,111 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "1d0948daf0d54c37a593f48685ab7d99"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
+
+  <script>
+    class MyError extends Error {
+      constructor(message) {
+        super(message);
+        TrackJS.track('Testing TrackJS!');                  
+        this.name = "ValidationError";
+      }
+    }
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        let output = document.querySelector('output');
+        let firstNum = document.querySelector('#first-num').value;
+        let secondNum = document.querySelector('#second-num').value;
+        let operator = document.querySelector('#operator').value;
+        if(firstNum == "" || secondNum == "") throw new MyError("empty field!!!");
+        if(isNaN(firstNum) || isNaN(secondNum)) throw "not a number!!!";
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch(err) {
+        console.log(err);
+      } finally {
+        console.log("QQ");
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    errorBtns[0].addEventListener('click', () => {
+      console.log("Console Log Demo");
+    });
+    errorBtns[1].addEventListener('click', () => {
+      console.error("Console Error Demo");
+    });
+    errorBtns[2].addEventListener('click', () => {
+      console.count("Count Button");
+    });
+    errorBtns[3].addEventListener('click', () => {
+      console.warn("Console Warn Button");
+    });
+    errorBtns[4].addEventListener('click', () => {
+      const x = 5;
+      const y = 3;
+      const reason = 'x is expected to be less than y';
+      console.assert(x < y, {x, y, reason})
+    });
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+    errorBtns[6].addEventListener('click', () => {
+      console.dir(errorBtns[0]);
+    });
+    errorBtns[7].addEventListener('click', () => {
+      console.dirxml(errorBtns[7]);
+    });
+    errorBtns[8].addEventListener('click', () => {
+      console.group();
+    });
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd();
+    });
+    errorBtns[10].addEventListener('click', () => {
+      var test = [
+        {
+          1: 'a',
+          2: 'b',
+        },
+        {
+          1: 'c',
+          2: 'd',
+        },
+        {
+          1: 'e',
+          2: 'f',
+        }
+      ];
+      console.table(test);
+    });
+    errorBtns[11].addEventListener('click', () => {
+      console.time("Timer Button");
+    });
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd("Timer Button");
+    });
+    errorBtns[13].addEventListener('click', () => {
+      const first = () => { second(); };
+      const second = () => { third(); };
+      const third = () => { console.trace(); };
+      first();
+    });
+    errorBtns[14].addEventListener('click', () => {
+      boom();
+    });
   </script>
 </body>
 
