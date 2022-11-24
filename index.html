@@ -105,6 +105,9 @@
       }
     }
 
+    window.onerror = function (errorMsg) {
+      alert('JavaScript Error: ' + errorMsg);
+    }
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -189,9 +192,12 @@
       const third = () => { console.trace(); };
       first();
     });
-    errorBtns[14].addEventListener('click', () => {
-      boom();
-    });
+    errorBtns[14].addEventListener('click', handleBtnClick);
+      function handleBtnClick() {
+        console.log("AAA");
+        boom();
+      }
+    // });
   </script>
 </body>
 
